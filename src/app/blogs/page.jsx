@@ -7,6 +7,8 @@ export default function Blogs() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isClient, setIsClient] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -19,7 +21,22 @@ export default function Blogs() {
     if (user) {
       setCurrentUser(JSON.parse(user));
     }
+    fetchBlogs();
   }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await fetch('/api/blogs');
+      const data = await response.json();
+      if (data.success) {
+        setBlogs(data.blogs);
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +59,7 @@ export default function Blogs() {
         alert('Blog created successfully!');
         setFormData({ title: '', content: '', excerpt: '' });
         setShowForm(false);
+        fetchBlogs(); // Refresh blogs list
       } else {
         alert('Failed to create blog');
       }
@@ -107,7 +125,7 @@ export default function Blogs() {
                   value={formData.title}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 text-black rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter blog title"
                 />
               </div>
@@ -122,7 +140,7 @@ export default function Blogs() {
                   onChange={handleChange}
                   required
                   rows="2"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Brief description of your blog"
                 />
               </div>
@@ -137,7 +155,7 @@ export default function Blogs() {
                   onChange={handleChange}
                   required
                   rows="10"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Write your blog content here..."
                 />
               </div>
@@ -161,10 +179,43 @@ export default function Blogs() {
           </div>
         )}
 
-        <div className="text-center py-12">
-          <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500">Blog posts will appear here</p>
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading blogs...</p>
+          </div>
+        ) : blogs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogs.map((blog) => (
+              <div key={blog._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                    {blog.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <span className="font-medium text-gray-700">{blog.author}</span>
+                    <span>{isClient ? new Date(blog.createdAt).toLocaleDateString() : ''}</span>
+                  </div>
+                  <a 
+                    href={`/blogs/${blog._id}`} 
+                    className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold"
+                  >
+                    Read More
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500">No blogs found. Create your first blog!</p>
+          </div>
+        )}
         </>
         )}
       </div>

@@ -45,13 +45,16 @@ export default function Navbar() {
             <a href="/" className="text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors">
               Home
             </a>
+            <a href="/about" className="text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              About
+            </a>
             <a href="/blogs" className="text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors">
               All Blogs
             </a>
 
             {isAuthenticated ? (
               <>
-                <a href="/create" className="text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <a href="/blogs" className="text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Create Blog
                 </a>
                 <div className="flex items-center space-x-2 xl:space-x-3 ml-2 xl:ml-4 pl-2 xl:pl-4 border-l border-gray-300">
@@ -162,6 +165,13 @@ export default function Navbar() {
               Home
             </a>
             <a
+              href="/about"
+              className="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-md text-base font-medium transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
+            </a>
+            <a
               href="/blogs"
               className="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-md text-base font-medium transition-colors"
               onClick={() => setMobileMenuOpen(false)}
@@ -172,7 +182,7 @@ export default function Navbar() {
             {isAuthenticated ? (
               <>
                 <a
-                  href="/create"
+                  href="/blogs"
                   className="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-md text-base font-medium transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
