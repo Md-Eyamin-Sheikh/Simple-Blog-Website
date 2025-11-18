@@ -8,13 +8,13 @@ import { Menu, X, User, LogOut, LogIn, UserPlus, BookOpen, ArrowRight, Zap, Shie
 // Hero Section
 function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-20 md:py-32 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 animate-fade-in">
             Share Your Stories with
-            <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
               The World
             </span>
           </h1>
@@ -22,11 +22,11 @@ function Hero() {
             Create, discover, and engage with amazing content. Join our community of writers and readers passionate about sharing knowledge and stories.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="/register" className="group bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl flex items-center space-x-2">
+            <a href="/register" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl flex items-center space-x-2">
               <span>Get Started</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="/blogs" className="bg-white hover:bg-gray-50 text-indigo-600 border-2 border-indigo-600 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl">
+            <a href="/blogs" className="bg-white hover:bg-gray-50 text-blue-600 border-2 border-blue-600 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl">
               Explore Blogs
             </a>
           </div>
@@ -72,7 +72,7 @@ function Features() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-indigo-200">
+            <div key={index} className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
               <div className={`inline-block p-4 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-6 group-hover:scale-110 transition-transform`}>
                 {feature.icon}
               </div>
@@ -128,7 +128,7 @@ function BlogPreview() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-indigo-50">
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -147,12 +147,12 @@ function BlogPreview() {
                   alt={blog.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-indigo-600">
+                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-blue-600">
                   {blog.readTime}
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors line-clamp-2">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                   {blog.title}
                 </h3>
                 <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
@@ -176,7 +176,7 @@ function BlogPreview() {
                     </div>
                   </div>
                 </div>
-                <a href={`/blog/${blog.id}`} className="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold group">
+                <a href={`/blog/${blog.id}`} className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group">
                   Read More
                   <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </a>
@@ -185,7 +185,7 @@ function BlogPreview() {
           ))}
         </div>
         <div className="text-center mt-12">
-          <a href="/blogs" className="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
+          <a href="/blogs" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
             View All Blogs
             <ArrowRight className="h-5 w-5 ml-2" />
           </a>
@@ -200,13 +200,13 @@ function Author() {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl shadow-2xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 md:p-16">
             <div className="text-white">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Become a Featured Author
               </h2>
-              <p className="text-lg text-indigo-100 mb-6 leading-relaxed">
+              <p className="text-lg text-blue-100 mb-6 leading-relaxed">
                 Join thousands of writers sharing their expertise and passion. Build your audience, share your knowledge, and make an impact with your words.
               </p>
               <ul className="space-y-3 mb-8">
@@ -216,7 +216,7 @@ function Author() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-indigo-100">Unlimited blog posts</span>
+                  <span className="text-blue-100">Unlimited blog posts</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <div className="bg-white/20 p-1 rounded-full">
@@ -224,7 +224,7 @@ function Author() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-indigo-100">Advanced analytics</span>
+                  <span className="text-blue-100">Advanced analytics</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <div className="bg-white/20 p-1 rounded-full">
@@ -232,10 +232,10 @@ function Author() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-indigo-100">Community support</span>
+                  <span className="text-blue-100">Community support</span>
                 </li>
               </ul>
-              <a href="/register" className="inline-flex items-center bg-white text-indigo-600 hover:bg-gray-50 px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
+              <a href="/register" className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-50 px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
                 Start Writing Today
                 <ArrowRight className="h-5 w-5 ml-2" />
               </a>
@@ -248,17 +248,17 @@ function Author() {
                   </div>
                   <div className="text-white">
                     <h3 className="text-xl font-bold">10,000+</h3>
-                    <p className="text-indigo-200">Active Writers</p>
+                    <p className="text-blue-200">Active Writers</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-white">
                   <div className="bg-white/10 p-4 rounded-xl">
                     <p className="text-2xl font-bold">50M+</p>
-                    <p className="text-sm text-indigo-200">Monthly Readers</p>
+                    <p className="text-sm text-blue-200">Monthly Readers</p>
                   </div>
                   <div className="bg-white/10 p-4 rounded-xl">
                     <p className="text-2xl font-bold">1M+</p>
-                    <p className="text-sm text-indigo-200">Published Articles</p>
+                    <p className="text-sm text-blue-200">Published Articles</p>
                   </div>
                 </div>
               </div>
