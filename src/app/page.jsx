@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { Menu, X, User, LogOut, LogIn, UserPlus, BookOpen, ArrowRight, Zap, Shield, TrendingUp, Clock, Heart, MessageCircle, Eye } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowRight, Zap, Shield, TrendingUp, BookOpen, User } from 'lucide-react';
 
 
 
@@ -88,44 +88,29 @@ function Features() {
 
 // Blog Preview Section
 function BlogPreview() {
-  const blogs = [
-    {
-      id: 1,
-      title: "Getting Started with Next.js 14",
-      excerpt: "Learn the fundamentals of Next.js and build modern web applications with the latest features...",
-      author: "Sarah Johnson",
-      date: "Nov 15, 2025",
-      readTime: "5 min read",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop",
-      likes: 234,
-      comments: 45,
-      views: 1200
-    },
-    {
-      id: 2,
-      title: "The Future of Web Development",
-      excerpt: "Exploring emerging trends and technologies that will shape how we build websites in 2025...",
-      author: "Michael Chen",
-      date: "Nov 14, 2025",
-      readTime: "8 min read",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=500&fit=crop",
-      likes: 189,
-      comments: 32,
-      views: 980
-    },
-    {
-      id: 3,
-      title: "Mastering React Hooks",
-      excerpt: "Deep dive into React Hooks and learn how to write cleaner, more efficient components...",
-      author: "Emily Davis",
-      date: "Nov 13, 2025",
-      readTime: "6 min read",
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=500&fit=crop",
-      likes: 312,
-      comments: 67,
-      views: 1540
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await fetch('/api/blogs');
+      const data = await response.json();
+      if (data.success) {
+        // Get only the first 3 blogs for homepage
+        setBlogs(data.blogs.slice(0, 3));
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
@@ -138,58 +123,51 @@ function BlogPreview() {
             Discover insightful articles from our community
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((blog) => (
-            <div key={blog.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-              <div className="relative overflow-hidden h-48">
-                <img 
-                  src={blog.image} 
-                  alt={blog.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-blue-600">
-                  {blog.readTime}
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                  {blog.title}
-                </h3>
-                <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
-                <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
-                  <span className="font-medium text-gray-700">{blog.author}</span>
-                  <span>{blog.date}</span>
-                </div>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <div className="flex items-center space-x-4 text-gray-500 text-sm">
-                    <div className="flex items-center space-x-1">
-                      <Heart className="h-4 w-4" />
-                      <span>{blog.likes}</span>
+        
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading latest posts...</p>
+          </div>
+        ) : blogs.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogs.map((blog) => (
+                <div key={blog._id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {blog.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
+                    <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">{blog.author}</span>
+                      <span>{isClient ? new Date(blog.createdAt).toLocaleDateString() : ''}</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <MessageCircle className="h-4 w-4" />
-                      <span>{blog.comments}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Eye className="h-4 w-4" />
-                      <span>{blog.views}</span>
-                    </div>
+                    <a href={`/blogs/${blog._id}`} className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group">
+                      Read More
+                      <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </a>
                   </div>
                 </div>
-                <a href={`/blog/${blog.id}`} className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group">
-                  Read More
-                  <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="text-center mt-12">
-          <a href="/blogs" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
-            View All Blogs
-            <ArrowRight className="h-5 w-5 ml-2" />
-          </a>
-        </div>
+            <div className="text-center mt-12">
+              <a href="/blogs" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl">
+                View All Blogs
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </a>
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500 mb-4">No blog posts yet</p>
+            <a href="/blogs" className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all">
+              Create First Blog
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );
