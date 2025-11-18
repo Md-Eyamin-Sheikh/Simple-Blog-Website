@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, User, LogOut, LogIn, UserPlus, BookOpen } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('JohnDoe');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      const userData = JSON.parse(currentUser);
+      setUser(userData);
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('currentUser');
     setIsAuthenticated(false);
+    setUser(null);
     console.log('Logging out...');
   };
 
@@ -45,8 +56,16 @@ export default function Navbar() {
                 </a>
                 <div className="flex items-center space-x-2 xl:space-x-3 ml-2 xl:ml-4 pl-2 xl:pl-4 border-l border-gray-300">
                   <div className="hidden xl:flex items-center space-x-2 text-gray-700">
-                    <User className="h-4 w-4 xl:h-5 xl:w-5" />
-                    <span className="text-sm font-medium max-w-20 truncate">{username}</span>
+                    {user?.photoURL ? (
+                      <img 
+                        src={user.photoURL} 
+                        alt={user.name}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <User className="h-4 w-4 xl:h-5 xl:w-5" />
+                    )}
+                    <span className="text-sm font-medium max-w-20 truncate">{user?.name}</span>
                   </div>
                   <button
                     onClick={handleLogout}
@@ -61,10 +80,6 @@ export default function Navbar() {
               <div className="flex items-center space-x-2 xl:space-x-3 ml-2 xl:ml-4 pl-2 xl:pl-4 border-l border-gray-300">
                 <a
                   href="/login"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLogin();
-                  }}
                   className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 px-2 xl:px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   <LogIn className="h-4 w-4" />
@@ -85,7 +100,18 @@ export default function Navbar() {
           <div className="hidden md:flex lg:hidden items-center space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-700 max-w-16 truncate">{username}</span>
+                <div className="flex items-center space-x-2">
+                  {user?.photoURL ? (
+                    <img 
+                      src={user.photoURL} 
+                      alt={user.name}
+                      className="h-6 w-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="h-4 w-4 text-gray-700" />
+                  )}
+                  <span className="text-sm text-gray-700 max-w-16 truncate">{user?.name}</span>
+                </div>
                 <button
                   onClick={handleLogout}
                   className="flex items-center bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm transition-colors"
@@ -97,10 +123,6 @@ export default function Navbar() {
               <div className="flex items-center space-x-2">
                 <a
                   href="/login"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLogin();
-                  }}
                   className="flex items-center text-gray-700 hover:text-blue-600 px-2 py-2 rounded-md text-sm transition-colors"
                 >
                   <LogIn className="h-4 w-4" />
@@ -158,8 +180,16 @@ export default function Navbar() {
                 </a>
                 <div className="pt-3 pb-2 border-t border-gray-200 mt-2">
                   <div className="flex items-center px-3 py-2">
-                    <User className="h-5 w-5 text-gray-700 mr-3 flex-shrink-0" />
-                    <span className="text-base font-medium text-gray-700 truncate">{username}</span>
+                    {user?.photoURL ? (
+                      <img 
+                        src={user.photoURL} 
+                        alt={user.name}
+                        className="h-8 w-8 rounded-full object-cover mr-3 flex-shrink-0"
+                      />
+                    ) : (
+                      <User className="h-5 w-5 text-gray-700 mr-3 flex-shrink-0" />
+                    )}
+                    <span className="text-base font-medium text-gray-700 truncate">{user?.name}</span>
                   </div>
                   <button
                     onClick={() => {
@@ -177,12 +207,8 @@ export default function Navbar() {
               <div className="pt-3 pb-2 border-t border-gray-200 mt-2 space-y-2">
                 <a
                   href="/login"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLogin();
-                    setMobileMenuOpen(false);
-                  }}
                   className="block w-full text-center text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-md text-base font-medium transition-colors border border-gray-300"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <div className="flex items-center justify-center space-x-2">
                     <LogIn className="h-4 w-4" />
